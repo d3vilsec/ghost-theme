@@ -4,3 +4,6 @@ node_modules/
 ._*
 *.swp
 *.kate-swp
+
+# local canonical theme snapshot (not deployed)
+.reference/
