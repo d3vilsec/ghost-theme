@@ -1,0 +1,148 @@
+{{!< default}}
+
+<div class="container">
+
+  <section class="home-hero fade-up d1">
+    <div class="hero-tag">d3vilsec.com</div>
+    <h1>Build real infrastructure.<br><strong>Own your stack.</strong></h1>
+    <p class="hero-sub">Practical guides and courses for IT professionals running Proxmox, Docker Swarm, enterprise security tooling, and managed networking at home.</p>
+  </section>
+
+</div>
+
+<div class="container container-wide">
+  <div class="home-layout">
+
+    <!-- Left sidebar: Topics -->
+    <aside class="topics-sidebar fade-up d2">
+      <div class="section-label">// topics</div>
+      <div class="topics-list">
+        {{#get "tags" limit="all" filter="visibility:public"}}
+          {{#foreach tags}}
+          <a class="topic-item" href="{{url}}">
+            <div class="topic-item-name">{{name}}</div>
+            <div class="topic-item-count">{{count.posts}}</div>
+          </a>
+          {{/foreach}}
+        {{/get}}
+      </div>
+    </aside>
+
+    <!-- Right: Post feed -->
+    <main class="post-feed-section fade-up d3">
+      <div class="section-label">// latest</div>
+
+      <div class="post-feed">
+        {{#foreach posts}}
+
+          {{#if @first}}
+          <a class="post-card post-card-featured" href="{{url}}">
+            <div class="featured-label">// featured post</div>
+            {{#if primary_tag}}
+            <div class="post-tag">{{primary_tag.name}}</div>
+            {{/if}}
+            <div class="post-card-title">{{title}}</div>
+            {{#if custom_excerpt}}
+            <div class="post-card-excerpt">{{custom_excerpt}}</div>
+            {{else if excerpt}}
+            <div class="post-card-excerpt">{{excerpt words="30"}}</div>
+            {{/if}}
+            <div class="post-card-arrow">read more →</div>
+          </a>
+
+          {{else}}
+
+          <a class="post-card" href="{{url}}">
+            <div class="post-date">
+              {{date format="MMM DD"}}<br>
+              {{date format="YYYY"}}
+            </div>
+            <div class="post-card-body">
+              {{#if primary_tag}}
+              <div class="post-tag">{{primary_tag.name}}</div>
+              {{/if}}
+              <div class="post-card-title">{{title}}</div>
+              {{#if custom_excerpt}}
+              <div class="post-card-excerpt">{{custom_excerpt}}</div>
+              {{else if excerpt}}
+              <div class="post-card-excerpt">{{excerpt words="25"}}</div>
+              {{/if}}
+              <div class="post-card-arrow">→</div>
+            </div>
+          </a>
+
+          {{/if}}
+
+        {{/foreach}}
+      </div>
+
+      {{pagination}}
+
+    </main>
+
+    <!-- Right sidebar -->
+    <aside class="home-right-sidebar fade-up d4">
+
+      <div class="sidebar-widget widget-featured">
+        <div class="widget-label">// newsletter</div>
+        <div class="widget-title">weekly homelab guides</div>
+        <div class="widget-desc">No fluff. Practical IT content delivered every week.</div>
+        <form class="sidebar-form" id="home-signup-form">
+          <input type="email" id="home-email" placeholder="your@email.com" required />
+          <button type="submit" id="home-submit">
+            <span class="btn-label">subscribe →</span>
+            <span class="btn-loading" style="display:none;">...</span>
+          </button>
+          <div class="sidebar-form-message" id="home-message"></div>
+        </form>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="widget-label">// d3vil member</div>
+        <div class="widget-title">$10 / month</div>
+        <div class="widget-desc">Full access to all courses, config files, and new content as it ships.</div>
+        <a href="https://d3vilsec.com/blog/membership/" class="home-cta-btn">start free trial →</a>
+      </div>
+
+    </aside>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  var SITE_URL = 'https://d3vilsec.com/blog';
+  var form = document.getElementById('home-signup-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('home-email').value.trim();
+    if (!email) return;
+    var btn = document.getElementById('home-submit');
+    btn.querySelector('.btn-label').style.display = 'none';
+    btn.querySelector('.btn-loading').style.display = 'inline';
+    btn.disabled = true;
+    fetch(SITE_URL + '/members/api/send-magic-link/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, emailType: 'subscribe' })
+    }).then(function(res) {
+      btn.querySelector('.btn-label').style.display = 'inline';
+      btn.querySelector('.btn-loading').style.display = 'none';
+      btn.disabled = false;
+      var msg = document.getElementById('home-message');
+      if (res.ok) {
+        msg.textContent = '✓ check your inbox!';
+        msg.style.color = 'var(--accent)';
+        form.reset();
+      } else {
+        msg.textContent = 'something went wrong';
+        msg.style.color = '#e24b4a';
+      }
+      msg.style.display = 'block';
+    }).catch(function() {
+      btn.disabled = false;
+    });
+  });
+})();
+</script>

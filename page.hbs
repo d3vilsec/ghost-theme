@@ -1,0 +1,28 @@
+{{!< default}}
+
+{{#post}}
+<div class="container">
+
+  {{#if @page.show_title_and_feature_image}}
+  <header class="post-header fade-up d1">
+    <div class="post-meta">
+      <span class="post-meta-tag">// page</span>
+    </div>
+    <h1 class="post-title">{{title}}</h1>
+    {{#if custom_excerpt}}
+    <p class="post-excerpt-lead">{{custom_excerpt}}</p>
+    {{/if}}
+    {{#if feature_image}}
+    <img src="{{feature_image}}" alt="{{title}}" style="width:100%;height:auto;display:block;margin-top:2rem;border:1px solid var(--border-dim);">
+    {{/if}}
+  </header>
+  {{/if}}
+
+  <div class="post-content fade-up d2">
+    <section class="gh-content">
+      {{content}}
+    </section>
+  </div>
+
+</div>
+{{/post}}

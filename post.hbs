@@ -1,0 +1,312 @@
+{{!< default}}
+
+{{#post}}
+<div class="container container-post">
+  <header class="post-header fade-up d1">
+    <div class="post-meta">
+      {{#if primary_tag}}
+      <span class="post-meta-tag">{{primary_tag.name}}</span>
+      {{/if}}
+      <span class="post-meta-date">{{date format="DD MMM YYYY"}}</span>
+      <span class="post-meta-read">{{reading_time}}</span>
+    </div>
+    <h1 class="post-title">{{title}}</h1>
+    {{#if custom_excerpt}}
+    <p class="post-excerpt-lead">{{custom_excerpt}}</p>
+    {{/if}}
+  </header>
+  <div class="post-layout fade-up d2">
+
+    <!-- Left sidebar: Table of Contents -->
+    <aside class="toc-sidebar">
+      <div class="section-label">// contents</div>
+      <nav class="toc-nav" id="toc-nav"></nav>
+    </aside>
+
+    <!-- Post content -->
+    <div class="post-content-wrap">
+
+      <!-- Progress bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+        <div class="progress-label" id="progress-label">0%</div>
+      </div>
+
+      <section class="gh-content gh-canvas" id="post-content">
+        {{content}}
+      </section>
+
+      <footer class="post-footer">
+        <div class="post-author">
+          <div class="author-avatar">
+            {{#if primary_author.profile_image}}
+            <img src="{{primary_author.profile_image}}" alt="{{primary_author.name}}">
+            {{else}}
+            ls
+            {{/if}}
+          </div>
+          <div>
+            <div class="author-name">{{primary_author.name}}</div>
+            {{#if primary_author.bio}}
+            <div class="author-bio">{{primary_author.bio}}</div>
+            {{/if}}
+          </div>
+        </div>
+
+        {{#if tags}}
+        <div class="section-label">// tags</div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2rem;">
+          {{#foreach tags}}
+          <a href="{{url}}" style="font-family:var(--mono);font-size:11px;color:var(--text-muted);border:1px solid var(--border-dim);padding:0.25rem 0.6rem;text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">#{{name}}</a>
+          {{/foreach}}
+        </div>
+        {{/if}}
+
+      </footer>
+    </div>
+
+    <!-- Right sidebar -->
+    <aside class="right-sidebar">
+
+      <!-- Progress -->
+      <div class="sidebar-widget" id="progress-widget">
+        <div class="widget-label">// progress</div>
+        <div class="progress-ring-wrap">
+          <svg class="progress-ring" width="64" height="64" viewBox="0 0 64 64">
+            <circle class="progress-ring-track" cx="32" cy="32" r="26" fill="none" stroke-width="4"/>
+            <circle class="progress-ring-fill" id="progress-ring-fill" cx="32" cy="32" r="26" fill="none" stroke-width="4"
+              stroke-dasharray="163.4" stroke-dashoffset="163.4" stroke-linecap="round"
+              transform="rotate(-90 32 32)"/>
+          </svg>
+          <div class="progress-ring-label" id="progress-ring-label">0%</div>
+        </div>
+        <div class="progress-reading-time">{{reading_time}}</div>
+      </div>
+
+      <!-- Share -->
+      <div class="sidebar-widget">
+        <div class="widget-label">// share</div>
+        <div class="share-buttons">
+          <button class="share-btn" id="copy-link-btn" onclick="copyLink()">
+            <span class="share-icon">⎘</span>
+            <span class="share-text" id="copy-link-text">copy link</span>
+          </button>
+          <a class="share-btn" id="linkedin-share-btn" href="#" target="_blank" rel="noopener">
+            <span class="share-icon share-icon-svg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </span>
+            <span class="share-text">linkedin</span>
+          </a>
+          <a class="share-btn" id="x-share-btn" href="#" target="_blank" rel="noopener">
+            <span class="share-icon share-icon-svg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </span>
+            <span class="share-text">x / twitter</span>
+          </a>
+          <a class="share-btn" id="reddit-share-btn" href="#" target="_blank" rel="noopener">
+            <span class="share-icon share-icon-svg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+            </span>
+            <span class="share-text">reddit</span>
+          </a>
+          <a class="share-btn" id="facebook-share-btn" href="#" target="_blank" rel="noopener">
+            <span class="share-icon share-icon-svg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </span>
+            <span class="share-text">facebook</span>
+          </a>
+          <a class="share-btn" id="instagram-share-btn" href="https://www.instagram.com" target="_blank" rel="noopener">
+            <span class="share-icon share-icon-svg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            </span>
+            <span class="share-text">instagram</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      {{#unless @member}}
+      <div class="sidebar-widget widget-featured">
+        <div class="widget-label">// newsletter</div>
+        <div class="widget-title">weekly homelab guides</div>
+        <div class="widget-desc">No fluff. Just practical IT content delivered every week.</div>
+        <form class="sidebar-form" id="sidebar-signup-form">
+          <input type="email" id="sidebar-email" placeholder="your@email.com" required />
+          <button type="submit" id="sidebar-submit">
+            <span class="btn-label">subscribe →</span>
+            <span class="btn-loading" style="display:none;">...</span>
+          </button>
+          <div class="sidebar-form-message" id="sidebar-message"></div>
+        </form>
+      </div>
+      {{/unless}}
+
+      <!-- Related posts -->
+      {{#if primary_tag}}
+      <div class="sidebar-widget">
+        <div class="widget-label">// related</div>
+        {{#get "posts" filter="tags:{{primary_tag.slug}}+id:-{{id}}" limit="4"}}
+        <div class="related-posts">
+          {{#foreach posts}}
+          <a class="related-post" href="{{url}}">
+            <div class="related-post-tag">{{primary_tag.name}}</div>
+            <div class="related-post-title">{{title}}</div>
+          </a>
+          {{/foreach}}
+        </div>
+        {{/get}}
+      </div>
+      {{/if}}
+
+    </aside>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  var SITE_URL = 'https://d3vilsec.com/blog';
+
+  // ── TOC ──────────────────────────────────────
+  var content = document.getElementById('post-content');
+  var tocNav = document.getElementById('toc-nav');
+
+  if (content && tocNav) {
+    var headings = content.querySelectorAll('h2, h3');
+    if (headings.length === 0) {
+      document.querySelector('.toc-sidebar').style.display = 'none';
+    } else {
+      headings.forEach(function(heading, i) {
+        if (!heading.id) {
+          heading.id = 'h-' + i + '-' + heading.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        }
+        var a = document.createElement('a');
+        a.href = '#' + heading.id;
+        a.textContent = heading.textContent;
+        a.className = 'toc-item toc-' + heading.tagName.toLowerCase();
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.getElementById(heading.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        tocNav.appendChild(a);
+      });
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          var link = tocNav.querySelector('a[href="#' + entry.target.id + '"]');
+          if (!link) return;
+          if (entry.isIntersecting) {
+            tocNav.querySelectorAll('a').forEach(function(a) { a.classList.remove('active'); });
+            link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-10% 0px -80% 0px' });
+
+      headings.forEach(function(h) { observer.observe(h); });
+    }
+  }
+
+  // ── PROGRESS ─────────────────────────────────
+  var progressBar = document.getElementById('progress-bar');
+  var progressLabel = document.getElementById('progress-label');
+  var ringFill = document.getElementById('progress-ring-fill');
+  var ringLabel = document.getElementById('progress-ring-label');
+  var circumference = 163.4;
+
+  function updateProgress() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    pct = Math.min(100, Math.max(0, pct));
+
+    if (progressBar) {
+      progressBar.style.width = pct + '%';
+    }
+    if (progressLabel) {
+      progressLabel.textContent = pct + '%';
+    }
+    if (ringFill) {
+      var offset = circumference - (pct / 100) * circumference;
+      ringFill.style.strokeDashoffset = offset;
+    }
+    if (ringLabel) {
+      ringLabel.textContent = pct + '%';
+    }
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // ── SHARE ─────────────────────────────────────
+  var pageUrl = encodeURIComponent(window.location.href);
+  var pageTitle = encodeURIComponent(document.title);
+
+  var linkedInBtn = document.getElementById('linkedin-share-btn');
+  if (linkedInBtn) linkedInBtn.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + pageUrl;
+
+  var xBtn = document.getElementById('x-share-btn');
+  if (xBtn) xBtn.href = 'https://x.com/intent/tweet?url=' + pageUrl + '&text=' + pageTitle;
+
+  var redditBtn = document.getElementById('reddit-share-btn');
+  if (redditBtn) redditBtn.href = 'https://www.reddit.com/submit?url=' + pageUrl + '&title=' + pageTitle;
+
+  var facebookBtn = document.getElementById('facebook-share-btn');
+  if (facebookBtn) facebookBtn.href = 'https://www.facebook.com/sharer/sharer.php?u=' + pageUrl;
+
+  window.copyLink = function() {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+      var btn = document.getElementById('copy-link-text');
+      btn.textContent = 'copied!';
+      setTimeout(function() { btn.textContent = 'copy link'; }, 2000);
+    });
+  };
+
+  // ── NEWSLETTER ───────────────────────────────
+  var sidebarForm = document.getElementById('sidebar-signup-form');
+  if (sidebarForm) {
+    sidebarForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = document.getElementById('sidebar-email').value.trim();
+      if (!email) return;
+
+      var btn = document.getElementById('sidebar-submit');
+      btn.querySelector('.btn-label').style.display = 'none';
+      btn.querySelector('.btn-loading').style.display = 'inline';
+      btn.disabled = true;
+
+      fetch(SITE_URL + '/members/api/send-magic-link/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, emailType: 'subscribe' })
+      })
+      .then(function(res) {
+        btn.querySelector('.btn-label').style.display = 'inline';
+        btn.querySelector('.btn-loading').style.display = 'none';
+        btn.disabled = false;
+        var msg = document.getElementById('sidebar-message');
+        if (res.ok) {
+          msg.textContent = '✓ check your inbox!';
+          msg.style.color = 'var(--accent)';
+          sidebarForm.reset();
+        } else {
+          msg.textContent = 'something went wrong';
+          msg.style.color = '#e24b4a';
+        }
+        msg.style.display = 'block';
+      })
+      .catch(function() {
+        btn.disabled = false;
+        var msg = document.getElementById('sidebar-message');
+        msg.textContent = 'something went wrong';
+        msg.style.color = '#e24b4a';
+        msg.style.display = 'block';
+      });
+    });
+  }
+
+})();
+</script>
+
+{{/post}}

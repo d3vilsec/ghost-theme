@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{meta_title}}</title>
+  <link rel="canonical" href="{{canonical_url}}">
+  <meta property="og:site_name" content="{{@site.title}}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{meta_title}}">
+  <meta property="og:description" content="{{meta_description}}">
+  <meta property="og:url" content="{{url absolute="true"}}">
+  {{#if feature_image}}
+  <meta property="og:image" content="{{feature_image}}">
+  {{/if}}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{meta_title}}">
+  <meta name="twitter:description" content="{{meta_description}}">
+  <link rel="stylesheet" href="{{asset "css/screen.css"}}">
+  {{ghost_head}}
+</head>
+<body class="{{body_class}}">
+<div class="site-wrapper">
+
+  <header class="site-header">
+    <div class="container">
+      <a href="{{@site.url}}" class="site-logo">
+        <div class="logo-mark">d3</div>
+        <div class="logo-text"><span>d3</span>vilsec.com</div>
+      </a>
+      <nav>
+        <ul class="site-nav">
+          <li><a href="https://d3vilsec.com/">home</a></li>
+          <li><a href="https://d3vilsec.com/blog/">blog</a></li>
+          <li><a href="https://d3vilsec.com/blog/tag/projects/">projects</a></li>
+          <li><a href="https://d3vilsec.com/cheatsheets/">cheatsheets</a></li>
+          <li><a href="https://d3vilsec.com/about/">about</a></li>
+          {{#unless @member}}
+          <li><a href="#/portal/signup" class="nav-cta">join free</a></li>
+          {{/unless}}
+          {{#if @member}}
+          <li><a href="#/portal/account" class="nav-cta">account</a></li>
+          {{/if}}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {{{body}}}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-left">
+        <div class="footer-logo"><span>d3</span>vilsec.com</div>
+        <div class="footer-copy">&copy; {{date format="YYYY"}} d3vilsec.com — all rights reserved</div>
+      </div>
+      <ul class="footer-nav">
+        <li><a href="https://d3vilsec.com/">home</a></li>
+        <li><a href="https://d3vilsec.com/blog/">blog</a></li>
+        <li><a href="https://d3vilsec.com/blog/tag/projects/">projects</a></li>
+        <li><a href="https://d3vilsec.com/cheatsheets/">cheatsheets</a></li>
+        <li><a href="https://d3vilsec.com/about/">about</a></li>
+        <li><a href="#/portal">account</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</div>
+{{ghost_foot}}
+</body>
+</html>

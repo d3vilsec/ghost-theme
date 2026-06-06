@@ -1,0 +1,42 @@
+{{!< default}}
+
+<div class="container">
+
+  <section class="home-hero fade-up d1">
+    {{#tag}}
+    <div class="hero-tag">// tag</div>
+    <h1><strong>#{{name}}</strong></h1>
+    {{#if description}}<p class="hero-sub">{{description}}</p>{{/if}}
+    {{/tag}}
+    {{#primary_author}}
+    <div class="hero-tag">// author</div>
+    <h1><strong>{{name}}</strong></h1>
+    {{#if bio}}<p class="hero-sub">{{bio}}</p>{{/if}}
+    {{/primary_author}}
+  </section>
+
+  <section class="post-feed-section">
+    <div class="section-label fade-up d2">// posts</div>
+    <div class="post-feed fade-up d3">
+      {{#foreach posts}}
+      <a class="post-card" href="{{url}}">
+        <div class="post-date">
+          {{date format="MMM DD"}}<br>
+          {{date format="YYYY"}}
+        </div>
+        <div class="post-card-body">
+          <div class="post-card-title">{{title}}</div>
+          {{#if custom_excerpt}}
+          <div class="post-card-excerpt">{{custom_excerpt}}</div>
+          {{else if excerpt}}
+          <div class="post-card-excerpt">{{excerpt words="25"}}</div>
+          {{/if}}
+          <div class="post-card-arrow">→</div>
+        </div>
+      </a>
+      {{/foreach}}
+    </div>
+    {{pagination}}
+  </section>
+
+</div>

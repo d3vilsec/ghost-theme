@@ -1,0 +1,217 @@
+{{!< default}}
+
+<div class="container">
+  <section class="membership-hero fade-up d1">
+    <div class="hero-tag">d3vil member</div>
+    <h1>Level up your<br><strong>homelab skills.</strong></h1>
+    <p>Practical courses and config files for IT professionals building real infrastructure at home. Everything included in one membership.</p>
+  </section>
+</div>
+
+<div class="container container-wide">
+  <div class="tiers-grid fade-up d2">
+
+    <!-- Free tier -->
+    <div class="tier-card">
+      <div class="tier-label">// free</div>
+      <div class="tier-price">$0 <span>/ month</span></div>
+      <div class="tier-desc">Free guides, the weekly newsletter, and starter config files — no card required.</div>
+      <ul class="tier-perks">
+        <li>Weekly homelab newsletter</li>
+        <li>Free guides and tutorials</li>
+        <li>Starter config bundle download</li>
+      </ul>
+      <form class="signup-form" id="free-signup-form">
+        <div class="form-field">
+          <input type="text" id="free-name" placeholder="your name" autocomplete="name" />
+        </div>
+        <div class="form-field">
+          <input type="email" id="free-email" placeholder="your@email.com" autocomplete="email" required />
+        </div>
+        <button type="submit" class="btn-tier-submit" id="free-submit">
+          <span class="btn-label">sign up free →</span>
+          <span class="btn-loading" style="display:none;">signing up...</span>
+        </button>
+        <div class="form-message" id="free-message"></div>
+      </form>
+    </div>
+
+    <!-- Paid tier -->
+    <div class="tier-card featured">
+      <div class="tier-label">// d3vil member</div>
+      <div class="tier-price">$10 <span>/ month</span></div>
+      <div class="tier-badge">7-day free trial</div>
+      <div class="tier-desc">Full access to every course in the series — past, present, and future.</div>
+      <ul class="tier-perks">
+        <li>All homelab courses included</li>
+        <li>Downloadable config files and templates</li>
+        <li>New courses at no extra cost</li>
+        <li>Early access before public release</li>
+        <li>7-day free trial, cancel anytime</li>
+      </ul>
+      <form class="signup-form" id="paid-signup-form">
+        <div class="form-field">
+          <input type="text" id="paid-name" placeholder="your name" autocomplete="name" />
+        </div>
+        <div class="form-field">
+          <input type="email" id="paid-email" placeholder="your@email.com" autocomplete="email" required />
+        </div>
+        <button type="submit" class="btn-tier-submit featured" id="paid-submit">
+          <span class="btn-label">start free trial →</span>
+          <span class="btn-loading" style="display:none;">redirecting...</span>
+        </button>
+        <div class="form-message" id="paid-message"></div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Course list -->
+  <div class="section-label fade-up d3" style="margin-top:3rem;">// course series</div>
+
+  <div class="post-feed fade-up d4" style="margin-bottom:4rem;">
+
+    <div class="post-card" style="grid-template-columns:1fr;">
+      <div class="post-card-body">
+        <div class="post-tag">foundation</div>
+        <div class="post-card-title">Homelab 101 — Hardware, Proxmox, and Your First VM</div>
+        <div class="post-card-excerpt">Choose the right hardware, install Proxmox, and stand up your first virtual machine. The starting point for the entire series.</div>
+      </div>
+    </div>
+
+    <div class="post-card" style="grid-template-columns:1fr;">
+      <div class="post-card-body">
+        <div class="post-tag">infrastructure</div>
+        <div class="post-card-title">Docker Swarm HA Cluster — Proxmox + Raspberry Pi 5</div>
+        <div class="post-card-excerpt">Build a 3-manager high-availability Docker Swarm across a Proxmox VM and two Pi 5 nodes. Architecture-aware workload placement included.</div>
+      </div>
+    </div>
+
+    <div class="post-card" style="grid-template-columns:1fr;">
+      <div class="post-card-body">
+        <div class="post-tag">networking</div>
+        <div class="post-card-title">TP-Link Omada SDN — VLANs, Firewall, and IoT Segmentation</div>
+        <div class="post-card-excerpt">Set up managed VLANs, firewall rules, and IoT isolation using the Omada SDN controller. Step-by-step from scratch.</div>
+      </div>
+    </div>
+
+    <div class="post-card" style="grid-template-columns:1fr;">
+      <div class="post-card-body">
+        <div class="post-tag">dns</div>
+        <div class="post-card-title">Pi-hole + Unbound + Gravity Sync — Redundant Recursive DNS</div>
+        <div class="post-card-excerpt">Run two Pi-hole instances with Unbound for fully recursive, self-hosted DNS. Gravity Sync keeps both in lockstep automatically.</div>
+      </div>
+    </div>
+
+    <div class="post-card" style="grid-template-columns:1fr;">
+      <div class="post-card-body">
+        <div class="post-tag">security</div>
+        <div class="post-card-title">STIG Manager in a Homelab — DoD Compliance Tooling for IT Pros</div>
+        <div class="post-card-excerpt">Set up STIG Manager with Keycloak, MySQL, and Nginx in a Docker Swarm stack. Build compliance skills that map directly to government and defense IT.</div>
+      </div>
+    </div>
+
+    <div class="post-card" style="grid-template-columns:1fr;">
+      <div class="post-card-body">
+        <div class="post-tag">identity</div>
+        <div class="post-card-title">RHEL IDM — Free Enterprise Identity Management via Red Hat Developer Program</div>
+        <div class="post-card-excerpt">Run redundant RHEL IDM instances for centralized LDAP, Kerberos, and certificate management — on a free Red Hat subscription.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  var SITE_URL = 'https://d3vilsec.com/blog';
+
+  function setLoading(formId, loading) {
+    var form = document.getElementById(formId);
+    form.querySelector('.btn-label').style.display = loading ? 'none' : 'inline';
+    form.querySelector('.btn-loading').style.display = loading ? 'inline' : 'none';
+    form.querySelector('button').disabled = loading;
+  }
+
+  function showMessage(id, msg, isError) {
+    var el = document.getElementById(id);
+    el.textContent = msg;
+    el.style.color = isError ? 'var(--color-danger, #e24b4a)' : 'var(--accent)';
+    el.style.display = 'block';
+  }
+
+  // Free signup
+  document.getElementById('free-signup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('free-email').value.trim();
+    var name = document.getElementById('free-name').value.trim();
+    if (!email) return;
+
+    setLoading('free-signup-form', true);
+
+    fetch(SITE_URL + '/members/api/send-magic-link/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        name: name,
+        emailType: 'subscribe'
+      })
+    })
+    .then(function(res) {
+      setLoading('free-signup-form', false);
+      if (res.ok) {
+        showMessage('free-message', '✓ check your inbox to confirm your email', false);
+        document.getElementById('free-signup-form').reset();
+      } else {
+        return res.json().then(function(data) {
+          showMessage('free-message', data.errors ? data.errors[0].message : 'something went wrong, try again', true);
+        });
+      }
+    })
+    .catch(function() {
+      setLoading('free-signup-form', false);
+      showMessage('free-message', 'something went wrong, try again', true);
+    });
+  });
+
+  // Paid signup — sends magic link with plan, Ghost handles Stripe redirect
+  document.getElementById('paid-signup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('paid-email').value.trim();
+    var name = document.getElementById('paid-name').value.trim();
+    if (!email) return;
+
+    setLoading('paid-signup-form', true);
+
+    fetch(SITE_URL + '/members/api/send-magic-link/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        name: name,
+        emailType: 'subscribe',
+        plan: 'monthly'
+      })
+    })
+    .then(function(res) {
+      setLoading('paid-signup-form', false);
+      if (res.ok) {
+        showMessage('paid-message', '✓ check your inbox — click the link to activate your trial', false);
+        document.getElementById('paid-signup-form').reset();
+      } else {
+        return res.json().then(function(data) {
+          showMessage('paid-message', data.errors ? data.errors[0].message : 'something went wrong, try again', true);
+        });
+      }
+    })
+    .catch(function() {
+      setLoading('paid-signup-form', false);
+      showMessage('paid-message', 'something went wrong, try again', true);
+    });
+  });
+})();
+</script>
